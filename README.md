@@ -111,6 +111,10 @@ We will deploy the DuckDB database file to the web server. To open this file wit
 
 https://github.com/duckdb/duckdb-wasm/issues/1659
 
+Or use the approach in this code:
+
+https://github.com/FurcyPin/duckdb-wasm-minimal-bug-example/blob/master/WORKS.html
+
 Some of the tools we can use to build the dashboard are:
 
 - Evidence - Simple approach using SQL and Markdown but it converts everything to Parquet.
