@@ -105,7 +105,13 @@ Once we have loaded all the files, we will create one mega-table where we aggreg
 
 ## Data Visualization
 
-We will create a web application to visualize the data. We will have a UI for filtering and support for charts and maps. Some of the tools we can use to build the dashboard are:
+We will create a web application to visualize the data. We will have a UI for filtering and support for charts and maps. 
+
+We will deploy the DuckDB database file to the web server. To open this file with duckdb-wasm we will follow the suggestions in this issue:
+
+https://github.com/duckdb/duckdb-wasm/issues/1659
+
+Some of the tools we can use to build the dashboard are:
 
 - Evidence - Simple approach using SQL and Markdown but it converts everything to Parquet.
 
