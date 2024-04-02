@@ -93,7 +93,7 @@ The sensor ID is composed of:
 - Sensor type: R (Nivel de agua en río - River Water Level) -> 
   Estación;Nombre;Sensor;Fecha;Nivel (m.);% Error
 
-### Load data 
+### Ingest data 
 
 We will load the data in the downloaded files into the database using the COPY command. We need to have one table per sensor type because the data has different attributes.
 
@@ -107,9 +107,28 @@ Once we have loaded all the files, we will create one mega-table where we aggreg
 
 The database is stored using Git LFS.
 
+## Embedded Database Engine
+
+We will deploy the DuckDB database file to the web server. To open this file with duckdb-wasm we will follow the suggestions in this issue:
+
+https://github.com/duckdb/duckdb-wasm/issues/1659
+
+Or use the approach in this code:
+
+https://github.com/FurcyPin/duckdb-wasm-minimal-bug-example/blob/master/WORKS.html
+
+By default duckdb-wasm is single-threaded but we can enable Cross Origin Isolation to allow for shared memory and multi-threaded execution by setting these headers:
+
+```
+Cross-Origin-Embedder-Policy: require-corp
+Cross-Origin-Opener-Policy: same-origin
+```
+
 ## Data Visualization
 
-We will create a web application to visualize the data. We will have a UI for filtering and support for charts and maps. Some of the tools we can use to build the dashboard are:
+We will create a web application to visualize the data. We will have a UI for filtering and support for charts and maps. 
+
+Some of the tools we can use to build the dashboard are:
 
 - Evidence - Simple approach using SQL and Markdown but it converts everything to Parquet.
 
