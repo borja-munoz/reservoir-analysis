@@ -54,7 +54,7 @@ We can avoid this by requesting data for a single sensor each time. We will requ
 http://www.redhidrosurmedioambiente.es/saih/datos/a/la/carta/csv?datepickerini=01%2F01%2F2018+00%3A00&datepickerfin=31%2F12%2F2019+23%3A00&agrupacion=60&provincia=2&subsistema=subsistema+I1-I3&tipoestacion=&tipo=&estacion=16&sensor=016E01
 ```
 
-Downloading all the data from 2012/01/01 to 2024/03/17 took 54 min. and 5 sec.
+Downloading all the data from 2012/01/01 to 2023/12/31 took 54 min. and 5 sec.
 
 ### Data schema
 
@@ -102,6 +102,10 @@ We will select the table where we copy the data based on the 4th char of the sen
 Loading each table from the CSV files has taken ~5 minutes and 40 seconds.
 
 Once we have loaded all the files, we will create one mega-table where we aggregate all the data, having one record per station and hour.
+
+### Store database
+
+The database is stored using Git LFS.
 
 ## Data Visualization
 
