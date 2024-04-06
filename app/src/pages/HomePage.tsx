@@ -10,6 +10,7 @@ export default function HomePage() {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        marginTop: '50px'
       }}
     >
       <Typography variant="h2" color="primary">
