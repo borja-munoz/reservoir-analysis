@@ -22,7 +22,7 @@ const DrawerDesktop = styled(Drawer)(() => ({
   },
 }));
 
-export default function Sidebar() {
+export default function EntitySelector() {
 
   return (
     <NavDrawer>

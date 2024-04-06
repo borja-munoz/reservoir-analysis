@@ -1,5 +1,4 @@
 import { lazy } from 'react';
-import Header from './components/Header';
 import DefaultView from './components/DefaultView';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -14,24 +13,14 @@ export const ROUTE_PATHS = {
 
 const routes = [
 
-  // Pages without sidebar  
-  { 
-    path: ROUTE_PATHS.DEFAULT, 
-    element: (
-      <>
-        <Header />
-        <HomePage /> 
-      </>
-    )
-  },
-
-  // Pages with default layout (header + sidebar)
+  // Pages with default layout (header + content)
   {
     path: ROUTE_PATHS.DEFAULT, 
     element: (
       <DefaultView />
     ),
     children: [
+      { path: ROUTE_PATHS.DEFAULT, element: <HomePage /> },
       { path: ROUTE_PATHS.DASHBOARD, element: <Dashboard /> },
     ],
   },
