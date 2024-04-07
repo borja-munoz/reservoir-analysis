@@ -1,12 +1,29 @@
 import { useEffect, useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import { FormattedMessage } from "react-intl";
-import { executeQuery } from "../db/duckdb";
+import { executeQuery, loadDB } from "../db/duckdb";
 import EntitySelector from "../components/EntitySelector";
+import { useDispatch, useSelector } from "react-redux";
+
+import { RootState } from "../store/store";
+import { setDBInitialized } from '../store/appSlice';
 
 export default function Dashboard() {
+  const dispatch = useDispatch();
+  const dbInitialized = useSelector((state: RootState) => state.app.dbInitialized);
   const [data, setData] = useState<any[] | undefined>([]);
   const [query, setQuery] = useState<string | null>(null);
+
+  useEffect(() => {
+    const initializeDB = async () => {
+      await loadDB();
+      dispatch(setDBInitialized(true));
+    };
+
+    if (!dbInitialized) {
+      initializeDB();
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,8 +34,10 @@ export default function Dashboard() {
       }
     };
 
-    fetchData();
-  }, [query]);
+    if (dbInitialized) {
+      fetchData();
+    }
+  }, [dbInitialized, query]);
 
   useEffect(() => {
     // Initializing the dashboard with this query downloads
