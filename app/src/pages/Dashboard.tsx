@@ -4,15 +4,24 @@ import { FormattedMessage } from "react-intl";
 import { executeQuery, loadDB } from "../db/duckdb";
 import EntitySelector from "../components/EntitySelector";
 import { useDispatch, useSelector } from "react-redux";
+import { Field } from "apache-arrow";
 
 import { RootState } from "../store/store";
-import { setDBInitialized } from '../store/appSlice';
+import { setDBInitialized } from "../store/appSlice";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const dbInitialized = useSelector((state: RootState) => state.app.dbInitialized);
+  const dbInitialized = useSelector(
+    (state: RootState) => state.app.dbInitialized
+  );
+  const selectedEntity = useSelector(
+    (state: RootState) => state.app.selectedEntity
+  );
   const [data, setData] = useState<any[] | undefined>([]);
   const [query, setQuery] = useState<string | null>(null);
+  const [resultFields, setResultFields] = useState<Field<any>[] | undefined>(
+    []
+  );
 
   useEffect(() => {
     const initializeDB = async () => {
@@ -29,7 +38,8 @@ export default function Dashboard() {
     const fetchData = async () => {
       if (query !== null) {
         const arrowTable = await executeQuery(query);
-        console.log("Rows: " + arrowTable?.numRows);
+        // console.log("Rows: " + arrowTable?.numRows);
+        setResultFields(arrowTable?.schema.fields);
         setData(arrowTable?.toArray());
       }
     };
@@ -40,38 +50,9 @@ export default function Dashboard() {
   }, [dbInitialized, query]);
 
   useEffect(() => {
-    // Initializing the dashboard with this query downloads
-    // 276 MB, including downloading twice the DuckDB-wasm
-    // bundle, and takes 42 seconds.
-    // Reloading the page, even with no-cache, downloads
-    // everything again and takes the same.
-    // Possible things to try:
-    // - Download the wasm bundle only once
-    // - Remove the single measurements table
-    // - Have 2 different databases: one with original data
-    //   and another with daily averages
-    // - See if query results can be cached
-    // - Cache some columns (i.e. station name), to read
-    //   as few columns as possible
-
-    // After changing the useEffect for fetching data to
-    // depend on the query, it seems the wasm bundle is
-    // downloaded only once.
-    // I have also reverted to the database version without
-    // the single measurements table.
-    // Now it downloads 84 MB in 17 seconds.
-
     setQuery(`
-      SELECT st.id as station_id,
-             st.name as station_name,
-             AVG(mr.level_masl) AS level_masl,
-             AVG(mr.volume_hm3) AS volume_hm3,
-             extract('year' FROM hour) AS year
-        FROM stations st     
-           INNER JOIN measurements_reservoir mr
-           ON st.id = mr.station_id
-           GROUP BY st.id, st.name, year
-           ORDER BY st.id, year
+      SELECT 1 as station_id, 'station' as station_name, year, volume_hm3
+      FROM basin_reservoir_yearly_average
     `);
   }, []);
 
@@ -90,50 +71,42 @@ export default function Dashboard() {
             padding: "20px",
           }}
         >
+          {selectedEntity && (
+            <Typography variant="body1">
+              Selected entity:{" "}
+              {selectedEntity.type +
+                "-" +
+                selectedEntity.id +
+                "-" +
+                selectedEntity.idBasin}
+            </Typography>
+          )}
           <Grid container>
             <Grid container p={1}>
-              <Grid item xs={2}>
-                <Typography variant="body1" color="primary">
-                  <FormattedMessage id="station_id" />
-                </Typography>
-              </Grid>
-              <Grid item xs={6}>
-                <Typography variant="body1" color="primary">
-                  <FormattedMessage id="station_name" />
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography variant="body1" color="primary">
-                  <FormattedMessage id="volume" />
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography variant="body1" color="primary">
-                  <FormattedMessage id="year" />
-                </Typography>
-              </Grid>
+              {resultFields &&
+                resultFields.map((field, index) => (
+                  <Grid item xs={3} key={"field" + index}>
+                    <Typography variant="body1" color="primary">
+                      <FormattedMessage id={field.name} />
+                    </Typography>
+                  </Grid>
+                ))}
             </Grid>
             {data &&
-              data.map((row, index) => (
-                <Grid container p={1} key={index}>
-                  <Grid item xs={2}>
-                    <Typography variant="caption">{row.station_id}</Typography>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Typography variant="caption">
-                      {row.station_name}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="caption">
-                      {String(row.year)}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography variant="caption">
-                      {row.volume_hm3.toFixed(2)}
-                    </Typography>
-                  </Grid>
+              data.map((row, indexRow) => (
+                <Grid container p={1} key={"row" + indexRow}>
+                  {resultFields &&
+                    resultFields.map((field, indexField) => (
+                      <Grid item xs={3} key={"row" + indexRow + indexField}>
+                        <Typography variant="caption">
+                          {field.type.typeId == 2 // int
+                            ? String(row[field.name])
+                            : field.type.typeId == 3 // float
+                            ? row[field.name].toFixed(2)
+                            : row[field.name]}
+                        </Typography>
+                      </Grid>
+                    ))}
                 </Grid>
               ))}
           </Grid>
