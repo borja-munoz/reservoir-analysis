@@ -14,7 +14,7 @@ export const messages = {
     station_id: "Station ID",
     station_name: "Station Name",
     year: "Year",
-    volume: "Volume",
+    volume_hm3: "Volume (hm3)",
 
     // Advanced Examples
     price_display:
@@ -34,7 +34,7 @@ export const messages = {
     station_id: "ID Estación",
     station_name: "Nombre Estación",
     year: "Año",
-    volume: "Volumen",
+    volume_hm3: "Volumen (hm3)",
     
     // Advanced Examples
     price_display:
