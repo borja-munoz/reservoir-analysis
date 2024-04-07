@@ -19,7 +19,7 @@ const MANUAL_BUNDLES: duckdb.DuckDBBundles = {
 };
 
 let db : AsyncDuckDB | null = null;
-let connection: Promise<AsyncDuckDBConnection> | null; // Declare globally so promise can be awaited anywhere
+let connection: Promise<AsyncDuckDBConnection> | undefined; 
 
 const initDB = async () => {
   if (db) {
@@ -38,20 +38,21 @@ const initDB = async () => {
   return db;
 }; 
 
-const getConnection = async () => {
-  if (connection) {
-    return connection; // Return existing promise, if any
-  }
-
-  // Initialize database
+const loadDB = async () => {
   const db = await initDB();
 
   await db.open({ 
     accessMode: DuckDBAccessMode.READ_ONLY,
     path: "http://localhost:5173/db/reservoir-analysis.db"
-  });
+  });  
+};
 
-  connection = db.connect(); // Open a connection (promise)
+const getConnection = async () => {
+  if (connection) {
+    return connection; // Return existing promise, if any
+  }
+
+  connection = db?.connect(); // Open a connection (promise)
   return connection;
 };
 
@@ -61,4 +62,4 @@ const executeQuery = async (query: string) => {
   return results;
 }
 
-export { executeQuery };
+export { executeQuery, loadDB };
