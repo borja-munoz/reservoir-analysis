@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LOCALES } from "../i18n/locales";
 import { AppMessage } from '../components/ModalMessage';
+import { SelectedEntity } from '../components/EntitySelector';
 
 const slice = createSlice({
   name: 'app',
@@ -9,6 +10,7 @@ const slice = createSlice({
     error: null,
     locale: LOCALES.ENGLISH,
     modalMessage: null,
+    selectedEntity: null,
   },
   reducers: {
     setDBInitialized: (state, action) => {
@@ -23,6 +25,9 @@ const slice = createSlice({
     setModalMessage: (state, action) => {
       state.modalMessage = action.payload;
     },
+    setSelectedEntity: (state, action) => {
+      state.selectedEntity = action.payload;
+    },    
   },
 });
 
@@ -42,5 +47,9 @@ export const setLocale = (payload: string | null) => ({
 });
 export const setModalMessage = (payload: AppMessage | null) => ({
   type: 'app/setModalMessage',
+  payload,
+});
+export const setSelectedEntity = (payload: SelectedEntity | null) => ({
+  type: 'app/setSelectedEntity',
   payload,
 });

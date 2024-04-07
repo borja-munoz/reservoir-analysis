@@ -5,10 +5,16 @@ import { styled } from "@mui/material/styles";
 import { SimpleTreeView, TreeItem } from '@mui/x-tree-view';
 
 import { executeQuery } from "../db/duckdb";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { setSelectedEntity } from "../store/appSlice";
 
 export const DRAWER_WIDTH = 350;
+
+export type SelectedEntity = {
+  type: 'basin' | 'province' | 'station';
+  name: string;
+};
 
 const NavDrawer = styled("nav")(({ theme }: { theme: Theme }) => ({
   flex: "0 0 auto",
@@ -28,6 +34,7 @@ const DrawerDesktop = styled(Drawer)(() => ({
 }));
 
 export default function EntitySelector() {
+  const dispatch = useDispatch();
   const dbInitialized = useSelector((state: RootState) => state.app.dbInitialized);
   const [data, setData] = useState<any[] | undefined>();
   const treeItems: ReactElement[]  = [];
@@ -77,12 +84,27 @@ export default function EntitySelector() {
     });
   }
 
+  const handleItemSelectionToggle = (
+    event: React.SyntheticEvent,
+    itemId: string,
+    isSelected: boolean,
+  ) => {
+    if (isSelected) {
+      dispatch(setSelectedEntity({
+        type: 'basin',
+        name: itemId
+      }));
+    }
+  };
+
   return (
     <NavDrawer>
       <DrawerDesktop variant="permanent" anchor="left" open>
         <SimpleTreeView
-          aria-label="file system navigator"
+          // expandedItems={['hidrosur']}
+          aria-label="Entity Selector"
           sx={{ height: 200, flexGrow: 1, maxWidth: 350, overflowY: "auto" }}
+          onItemSelectionToggle={handleItemSelectionToggle}
         >
           <TreeItem itemId="hidrosur" label="Hidrosur">
             {treeItems}
