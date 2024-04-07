@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { LOCALES } from "../i18n/locales";
 import { AppMessage } from '../components/ModalMessage';
-import { SelectedEntity } from '../components/EntitySelector';
+import { EntityType, SelectedEntity } from '../components/EntitySelector';
 
 const slice = createSlice({
   name: 'app',
@@ -10,7 +10,11 @@ const slice = createSlice({
     error: null,
     locale: LOCALES.ENGLISH,
     modalMessage: null,
-    selectedEntity: null,
+    selectedEntity: {
+      type: EntityType.Basin,
+      id: "1",
+      idBasin: 1,
+    },
   },
   reducers: {
     setDBInitialized: (state, action) => {
