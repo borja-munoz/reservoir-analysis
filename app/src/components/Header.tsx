@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from 'react-router-dom';
 
-import { AppBar, Container, Grid, Tab, Tabs, Toolbar } from '@mui/material';
+import { AppBar, Container, Divider, Grid, Tab, Tabs, Toolbar } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -22,19 +22,26 @@ const languages = [
   { name: "Spanish", code: LOCALES.SPANISH },
 ];
 
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  backgroundColor: 'transparent',
+  boxShadow: 'none'
+}));
+
 const NavTabs = styled(Grid)(({ theme }) => ({
   flexDirection: 'row',
   alignContent: 'flex-start',
+  paddingLeft: '10px',
 
   '& .MuiTab-root': {
-    color: theme.palette.common.white,
+    color: theme.palette.primary.main,
 
     '&:hover': {
       borderBottomColor: theme.palette.secondary.main,
     },
   },
   '& .MuiTabs-indicator': {
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.primary.main,
   },
 }));
 
@@ -81,7 +88,7 @@ export default function Header() {
   };
 
   return (
-    <AppBar position="static">
+    <StyledAppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <FlareOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }} />
@@ -102,6 +109,7 @@ export default function Header() {
           >
             Reservoir Analysis
           </Typography>
+          <Divider orientation='vertical' flexItem sx={{marginTop: '5px'}} />
           <WrapperTabs vertical={vertical}>
             <Tabs
               value={pathname ? pathname : ''}
@@ -124,7 +132,7 @@ export default function Header() {
           </WrapperTabs>        
           <Box display="flex" justifyContent="flex-end">
             <FormControl size="small">
-              <InputLabel id="language-label" sx={{color: "#FFFFFF"}}>
+              <InputLabel id="language-label">
                 <FormattedMessage id="language" />
               </InputLabel>
               <Select
@@ -132,7 +140,6 @@ export default function Header() {
                 label={intl.formatMessage({ id: "language" })}
                 value={language}
                 onChange={handleChange}
-                sx={{color: "#FFFFFF", borderColor: "#FFFFFF"}}
               >
                 {languages.map(({ name, code }) => (
                   <MenuItem key={code} value={code}>
@@ -144,6 +151,6 @@ export default function Header() {
           </Box>
         </Toolbar>
       </Container>
-    </AppBar>
+    </StyledAppBar>
   );
 }
