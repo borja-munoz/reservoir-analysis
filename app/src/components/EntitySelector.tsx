@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Drawer, Theme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { RichTreeView, TreeViewBaseItem } from "@mui/x-tree-view";
 
-import { executeQuery } from "../db/duckdb";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import { useDispatch } from "react-redux";
 import { setSelectedEntity } from "../store/appSlice";
+import { useEntities } from "../models/model";
 
 export const DRAWER_WIDTH = 350;
 
@@ -42,29 +41,12 @@ const DrawerDesktop = styled(Drawer)(() => ({
 
 export default function EntitySelector() {
   const dispatch = useDispatch();
-  const dbInitialized = useSelector(
-    (state: RootState) => state.app.dbInitialized
-  );
   const [data, setData] = useState<any[] | undefined>();
   let treeItems: TreeViewBaseItem[] = [];
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const query = `
-        SELECT id AS station_id,
-               name AS station_name,
-               province
-        FROM stations
-        ORDER BY province, name
-      `;
-      const arrowTable = await executeQuery(query);
-      setData(arrowTable?.toArray());
-    };
-
-    if (dbInitialized) {
-      fetchData();
-    }
-  }, [dbInitialized]);
+  const { data: arrowTable, status, error } = useEntities();  
+  if (status == "success" && data === undefined) {
+    setData(arrowTable?.toArray());  
+  }  
 
   const createTreeItems = () => {
     if (data !== undefined) {

@@ -1,60 +1,39 @@
 import { useEffect, useState } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import { FormattedMessage } from "react-intl";
-import { executeQuery, loadDB } from "../db/duckdb";
 import EntitySelector from "../components/EntitySelector";
 import { useDispatch, useSelector } from "react-redux";
 import { Field } from "apache-arrow";
 
 import { RootState } from "../store/store";
-import { setDBInitialized } from "../store/appSlice";
+import { useDefaultBasinMetric } from "../models/model";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const dbInitialized = useSelector(
-    (state: RootState) => state.app.dbInitialized
-  );
   const selectedEntity = useSelector(
     (state: RootState) => state.app.selectedEntity
   );
-  const [data, setData] = useState<any[] | undefined>([]);
-  const [query, setQuery] = useState<string | null>(null);
+  const [data, setData] = useState<any[] | undefined>();
   const [resultFields, setResultFields] = useState<Field<any>[] | undefined>(
     []
   );
+  const { data: arrowTable, status, error } = useDefaultBasinMetric();  
+  console.log("Status: " + status);
+  if (status == "success" && resultFields?.length == 0) {
+    setResultFields(arrowTable?.schema.fields);
+    setData(arrowTable?.toArray());  
+  }    
 
-  useEffect(() => {
-    const initializeDB = async () => {
-      await loadDB();
-      dispatch(setDBInitialized(true));
-    };
+  // useEffect(() => {
+  //   const initializeDB = async () => {
+  //     await loadDB();
+  //     dispatch(setDBInitialized(true));
+  //   };
 
-    if (!dbInitialized) {
-      initializeDB();
-    }
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (query !== null) {
-        const arrowTable = await executeQuery(query);
-        // console.log("Rows: " + arrowTable?.numRows);
-        setResultFields(arrowTable?.schema.fields);
-        setData(arrowTable?.toArray());
-      }
-    };
-
-    if (dbInitialized) {
-      fetchData();
-    }
-  }, [dbInitialized, query]);
-
-  useEffect(() => {
-    setQuery(`
-      SELECT 1 as station_id, 'station' as station_name, year, volume_hm3
-      FROM basin_reservoir_yearly_average
-    `);
-  }, []);
+  //   if (!dbInitialized) {
+  //     initializeDB();
+  //   }
+  // }, []);
 
   return (
     <Grid container>
