@@ -6,7 +6,6 @@ import { EntityType, SelectedEntity } from '../components/EntitySelector';
 const slice = createSlice({
   name: 'app',
   initialState: {
-    dbInitialized: false,
     error: null,
     locale: LOCALES.ENGLISH,
     modalMessage: null,
@@ -17,9 +16,6 @@ const slice = createSlice({
     },
   },
   reducers: {
-    setDBInitialized: (state, action) => {
-      state.dbInitialized = action.payload;
-    },
     setError: (state, action) => {
       state.error = action.payload;
     },
@@ -37,10 +33,6 @@ const slice = createSlice({
 
 export default slice.reducer;
 
-export const setDBInitialized = (payload: boolean | null) => ({
-  type: 'app/setDBInitialized',
-  payload,
-});
 export const setError = (payload: string | null) => ({
   type: 'app/setError',
   payload,
