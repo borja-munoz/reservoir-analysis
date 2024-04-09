@@ -15,6 +15,7 @@ Kickstarted with Vite React Typescript template.
 - State Management: [Redux Toolkit](https://redux-toolkit.js.org/)
 - Component Library: [Material-UI](https://mui.com/material-ui/)
 - Client-Side Routing: [React Router](https://reactrouter.com/en/main)
+- Query Caching: [React Query](https://tanstack.com/query)
 - Internationalization: [React Intl](https://formatjs.io/docs/react-intl/)
 
 ### Backend
