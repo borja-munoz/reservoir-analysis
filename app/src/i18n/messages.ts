@@ -11,6 +11,7 @@ export const messages = {
     language: "Language",
 
     // Dashboard
+    basin: "Basin",
     station_id: "Station ID",
     station_name: "Station Name",
     year: "Year",
@@ -31,6 +32,7 @@ export const messages = {
     language: "Idioma",
 
     // Dashboard
+    basin: "Cuenca",
     station_id: "ID Estación",
     station_name: "Nombre Estación",
     year: "Año",
