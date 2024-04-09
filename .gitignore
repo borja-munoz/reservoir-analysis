@@ -1,5 +1,8 @@
 db/*_tmp
 db/*.wal
+db/backup
+db/db-dump
+reservoir-analysis-backup.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
