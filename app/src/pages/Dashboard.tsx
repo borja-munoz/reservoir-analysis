@@ -1,39 +1,59 @@
 import { useEffect, useState } from "react";
-import { Box, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import EntitySelector from "../components/EntitySelector";
 import { useDispatch, useSelector } from "react-redux";
 import { Field } from "apache-arrow";
 
 import { RootState } from "../store/store";
-import { useDefaultBasinMetric } from "../models/model";
+import { useDefaultBasinMetric, useMetric } from "../models/model";
+import MetricSelector from "../components/MetricSelector";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
   const selectedEntity = useSelector(
     (state: RootState) => state.app.selectedEntity
   );
+  const selectedMetric = useSelector(
+    (state: RootState) => state.app.selectedMetric
+  );
   const [data, setData] = useState<any[] | undefined>();
   const [resultFields, setResultFields] = useState<Field<any>[] | undefined>(
     []
   );
-  const { data: arrowTable, status, error } = useDefaultBasinMetric();  
+  const [timeStep, setTimeStep] = useState("year");
+  // const { data: arrowTable, status, error } = useDefaultBasinMetric();
+  const { data: arrowTable, status } = useMetric(
+    selectedEntity,
+    selectedMetric.table,
+    selectedMetric.column,
+    timeStep
+  );
+
+  useEffect(() => {
+    setResultFields([]);
+  }, [selectedEntity, selectedMetric]);
+
+  const handleTimeStepChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newTimeStep: string
+  ) => {
+    setTimeStep(newTimeStep);
+    setResultFields([]);
+  };
+
   console.log("Status: " + status);
   if (status == "success" && resultFields?.length == 0) {
     setResultFields(arrowTable?.schema.fields);
-    setData(arrowTable?.toArray());  
-  }    
-
-  // useEffect(() => {
-  //   const initializeDB = async () => {
-  //     await loadDB();
-  //     dispatch(setDBInitialized(true));
-  //   };
-
-  //   if (!dbInitialized) {
-  //     initializeDB();
-  //   }
-  // }, []);
+    setData(arrowTable?.toArray());
+  }
 
   return (
     <Grid container>
@@ -50,16 +70,32 @@ export default function Dashboard() {
             padding: "20px",
           }}
         >
-          {selectedEntity && (
-            <Typography variant="body1">
-              Selected entity:{" "}
-              {selectedEntity.type +
-                "-" +
-                selectedEntity.id +
-                "-" +
-                selectedEntity.idBasin}
-            </Typography>
-          )}
+          <Grid container sx={{ marginBottom: "20px" }}>
+            <Grid item xs={6}>
+              <MetricSelector />
+            </Grid>
+            <Grid item xs={6}>
+              <Stack direction="row" justifyContent="end">
+                <ToggleButtonGroup
+                  color="primary"
+                  value={timeStep}
+                  exclusive
+                  onChange={handleTimeStepChange}
+                  aria-label="Time Step"
+                >
+                  <ToggleButton value="year">
+                    <FormattedMessage id="yearly" />
+                  </ToggleButton>
+                  <ToggleButton value="month">
+                    <FormattedMessage id="monthly" />
+                  </ToggleButton>
+                  <ToggleButton value="day">
+                    <FormattedMessage id="daily" />
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Stack>
+            </Grid>
+          </Grid>
           <Grid container>
             <Grid container p={1}>
               {resultFields &&
