@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { LOCALES } from "../i18n/locales";
 import { AppMessage } from '../components/ModalMessage';
 import { EntityType, SelectedEntity } from '../components/EntitySelector';
+import { Metric } from '../components/MetricSelector';
 
 const slice = createSlice({
   name: 'app',
@@ -13,6 +14,12 @@ const slice = createSlice({
       type: EntityType.Basin,
       id: "1",
       idBasin: 1,
+    },
+    selectedMetric: {
+      id: "res_volume",
+      table: "measurements_reservoir",
+      column: "volume_hm3",
+      unit: "hm3",
     },
   },
   reducers: {
@@ -27,6 +34,9 @@ const slice = createSlice({
     },
     setSelectedEntity: (state, action) => {
       state.selectedEntity = action.payload;
+    },    
+    setSelectedMetric: (state, action) => {
+      state.selectedMetric = action.payload;
     },    
   },
 });
@@ -47,5 +57,9 @@ export const setModalMessage = (payload: AppMessage | null) => ({
 });
 export const setSelectedEntity = (payload: SelectedEntity | null) => ({
   type: 'app/setSelectedEntity',
+  payload,
+});
+export const setSelectedMetric = (payload: Metric | null) => ({
+  type: 'app/setSelectedMetric',
   payload,
 });
