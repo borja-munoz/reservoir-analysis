@@ -9,12 +9,16 @@ export const messages = {
 
     // Header
     language: "Language",
+    home: "Home",
+    dashboard: "Dashboard",
 
     // Dashboard
     basin: "Basin",
     station_id: "Station ID",
     station_name: "Station Name",
     year: "Year",
+    month: "Month",
+    day: "Day",
 
     // Metrics
     metric: "Metric",
@@ -68,12 +72,16 @@ export const messages = {
 
     // Header
     language: "Idioma",
+    home: "Inicio",
+    dashboard: "Explorar",
 
     // Dashboard
     basin: "Cuenca",
     station_id: "ID Estación",
     station_name: "Nombre Estación",
     year: "Año",
+    month: "Mes",
+    day: "Día",
 
     // Metrics
     metric: "Métrica",
