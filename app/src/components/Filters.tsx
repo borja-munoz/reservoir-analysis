@@ -20,7 +20,7 @@ export default function Filters() {
   };
   
   return (
-    <Grid container sx={{ marginBottom: "20px" }}>
+    <Grid container sx={{ padding: "20px" }}>
       <Grid item xs={6}>
         <MetricSelector />
       </Grid>
