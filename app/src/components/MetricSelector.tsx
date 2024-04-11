@@ -17,6 +17,7 @@ export type Metric = {
   table: string;
   column: string;
   unit: string;
+  aggregation: string;
 };
 
 const metricGroups = [
@@ -28,12 +29,14 @@ const metricGroups = [
         table: "measurements_reservoir",
         column: "volume_hm3",
         unit: "hm3",
+        aggregation: "SUM",
       },
       {
         id: "res_masl",
         table: "measurements_reservoir",
         column: "level_masl",
         unit: "m",
+        aggregation: "AVG",
       },
     ],
   },
@@ -45,6 +48,7 @@ const metricGroups = [
         table: "measurements_river",
         column: "level_m",
         unit: "m",
+        aggregation: "AVG",
       },
     ],
   },
@@ -56,36 +60,42 @@ const metricGroups = [
         table: "measurements_temperature",
         column: "temperature_degc",
         unit: "degrees",
+        aggregation: "AVG",
       },
       {
         id: "meteo_atm_pressure",
         table: "measurements_atmospheric_pressure",
         column: "atmospheric_pressure_mb",
         unit: "mb",
+        aggregation: "AVG",
       },
       {
         id: "meteo_rel_humidity",
         table: "measurements_relative_humidity",
         column: "relative_humidity_pct",
         unit: "%",
+        aggregation: "AVG",
       },
       {
         id: "meteo_wind_speed",
         table: "measurements_wind_speed",
         column: "wind_speed_kmh",
         unit: "kmh",
+        aggregation: "AVG",
       },
       {
         id: "meteo_wind_direction",
         table: "measurements_wind_direction",
         column: "wind_direction_deg",
         unit: "degrees",
+        aggregation: "AVG",
       },
       {
         id: "meteo_solar_radiation",
         table: "measurements_solar_radiation",
         column: "solar_radiation_wm2",
         unit: "wm2",
+        aggregation: "SUM",
       },
     ],
   },
@@ -97,6 +107,7 @@ const metricGroups = [
         table: "measurements_pluviometer",
         column: "accumulated_rain_lm2",
         unit: "lm2",
+        aggregation: "SUM",
       },
     ],
   },
@@ -108,6 +119,7 @@ const metricGroups = [
         table: "measurements_snowmeter",
         column: "accumulated_snowfall_lm2",
         unit: "lm2",
+        aggregation: "SUM",
       },
     ],
   },
@@ -119,6 +131,7 @@ const metricGroups = [
         table: "measurements_evaporation_tank",
         column: "level_mm",
         unit: "mm",
+        aggregation: "AVG",
       },
     ],
   },
@@ -132,7 +145,8 @@ export function getMetric(id: string) : Metric | undefined {
         id,
         table: metricFound.table,
         column: metricFound.column,
-        unit: metricFound.unit
+        unit: metricFound.unit,
+        aggregation: metricFound.aggregation,
       };
     }
   };

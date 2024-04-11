@@ -9,15 +9,14 @@ import {
 } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 import EntitySelector from "../components/EntitySelector";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Field } from "apache-arrow";
 
 import { RootState } from "../store/store";
-import { useDefaultBasinMetric, useMetric } from "../models/model";
+import { useMetric } from "../models/model";
 import MetricSelector from "../components/MetricSelector";
 
 export default function Dashboard() {
-  const dispatch = useDispatch();
   const selectedEntity = useSelector(
     (state: RootState) => state.app.selectedEntity
   );
@@ -34,6 +33,7 @@ export default function Dashboard() {
     selectedEntity,
     selectedMetric.table,
     selectedMetric.column,
+    selectedMetric.aggregation,
     timeStep
   );
 
