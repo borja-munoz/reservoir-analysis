@@ -10,6 +10,7 @@ import { useMetric } from "../models/model";
 import EntitySelector from "../components/EntitySelector";
 import Filters from "../components/Filters";
 import TableView from "../components/TableView";
+import Chart from "../components/Chart";
 
 export default function Dashboard() {
   const selectedEntity = useSelector(
@@ -60,7 +61,16 @@ export default function Dashboard() {
           }}
         >
           <Filters />
-          <TableView data={data!} resultFields={resultFields!} />
+          {data && (
+            <>
+              <Chart
+                data={data!}
+                xAxisColumn={selectedTimeStep}
+                yAxisColumn={selectedMetric.column}
+              />
+              <TableView data={data!} resultFields={resultFields!} />
+            </>
+          )}
         </Box>
       </Grid>
     </Grid>
