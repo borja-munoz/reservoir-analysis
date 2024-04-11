@@ -81,7 +81,7 @@ export default function Header() {
 
   const handleChange = (
     event: SelectChangeEvent<string>,
-    child: React.ReactNode
+    _child: React.ReactNode
   ) => {
     setLanguage(event.target.value);
     dispatch(setLocale(event.target.value));
