@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Drawer, Theme } from "@mui/material";
+import { Drawer } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { RichTreeView, TreeViewBaseItem } from "@mui/x-tree-view";
 
@@ -22,7 +22,7 @@ export type SelectedEntity = {
   idBasin: number;
 };
 
-const NavDrawer = styled("nav")(({ theme }: { theme: Theme }) => ({
+const NavDrawer = styled("nav")(() => ({
   flex: "0 0 auto",
   position: "relative",
   width: DRAWER_WIDTH,
@@ -43,7 +43,7 @@ export default function EntitySelector() {
   const dispatch = useDispatch();
   const [data, setData] = useState<any[] | undefined>();
   let treeItems: TreeViewBaseItem[] = [];
-  const { data: arrowTable, status, error } = useEntities();  
+  const { data: arrowTable, status } = useEntities();  
   if (status == "success" && data === undefined) {
     setData(arrowTable?.toArray());  
   }  
@@ -62,7 +62,7 @@ export default function EntitySelector() {
           children: [],
         },
       ];
-      data.forEach((station, index) => {
+      data.forEach((station) => {
         if (
           station.province !==
           treeItems[0].children![currentIndexProvince].label
