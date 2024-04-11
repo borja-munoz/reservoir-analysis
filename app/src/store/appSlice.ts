@@ -21,6 +21,7 @@ const slice = createSlice({
       column: "volume_hm3",
       unit: "hm3",
     },
+    selectedTimeStep: "year",
   },
   reducers: {
     setError: (state, action) => {
@@ -37,6 +38,9 @@ const slice = createSlice({
     },    
     setSelectedMetric: (state, action) => {
       state.selectedMetric = action.payload;
+    },    
+    setSelectedTimeStep: (state, action) => {
+      state.selectedTimeStep = action.payload;
     },    
   },
 });
@@ -61,5 +65,9 @@ export const setSelectedEntity = (payload: SelectedEntity | null) => ({
 });
 export const setSelectedMetric = (payload: Metric | null) => ({
   type: 'app/setSelectedMetric',
+  payload,
+});
+export const setSelectedTimeStep = (payload: string | null) => ({
+  type: 'app/setSelectedTimeStep',
   payload,
 });
