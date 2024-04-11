@@ -12,7 +12,7 @@ export default function Filters() {
   const [timeStep, setTimeStep] = useState("year");
 
   const handleTimeStepChange = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newTimeStep: string
   ) => {
     setTimeStep(newTimeStep);

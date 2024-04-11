@@ -87,7 +87,7 @@ export default function EntitySelector() {
   }
 
   const handleItemSelectionToggle = (
-    event: React.SyntheticEvent,
+    _event: React.SyntheticEvent,
     itemId: string,
     isSelected: boolean
   ) => {
