@@ -1,4 +1,4 @@
-import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { executeQuery } from "../db/duckdb";
 import { EntityType, SelectedEntity } from "../components/EntitySelector";
@@ -6,7 +6,7 @@ import { EntityType, SelectedEntity } from "../components/EntitySelector";
 // Models are implemented as custom hooks
 // to cache the query results using React Query
 
-function useExecuteQuery(queryKeys: string[], query: string): UseQueryResult {
+function useExecuteQuery(queryKeys: string[], query: string) {
   return useQuery({
     queryKey: queryKeys,
     queryFn: async () => {
@@ -40,33 +40,58 @@ export function useMetric(
   entity: SelectedEntity,
   table: string,
   column: string,
+  aggregation: string,
   timeStep: string
 ) {
-  // ToDo: simple column average only works when the entity type
-  // is station; if we have province or basin, we need to compute
-  // the average of the sum of all stations in the province/basin
-  const selectColumns = `
-    AVG(${column})
-  `;
+  let query;
+
+  const periodSelectColumn = 
+    timeStep === "day"
+      ? `STRFTIME(DATE_TRUNC('${timeStep}', hour), '%Y/%m/%d') AS ${timeStep}`
+      : timeStep === "month"
+      ? `STRFTIME(DATE_TRUNC('${timeStep}', hour), '%Y/%m') AS ${timeStep}`
+      : `STRFTIME(DATE_TRUNC('${timeStep}', hour), '%Y') AS ${timeStep}`;
+
   const whereClause =
     entity.type === EntityType.Province
       ? `WHERE province = '${entity.id}'`
       : entity.type === EntityType.Station
       ? `WHERE station_id = ${entity.id}`
       : "";
+
   const joinClause =
     entity.type === EntityType.Province
       ? `INNER JOIN stations s ON ${table}.station_id = s.id`
       : "";
-  const query = `
-    SELECT ${selectColumns} AS ${column},
-           EXTRACT('${timeStep}' FROM hour) AS ${timeStep}
-    FROM ${table}
-    ${joinClause}
-    ${whereClause}
-    GROUP BY ${timeStep}
-    ORDER BY ${timeStep}
-  `;
+
+  if (aggregation === "AVG") {
+    query = `
+      SELECT AVG(${column}) AS ${column},
+             ${periodSelectColumn}
+      FROM ${table}
+           ${joinClause}
+      ${whereClause}
+      GROUP BY DATE_TRUNC('${timeStep}', hour)
+      ORDER BY ${timeStep}
+    `;
+  } else {
+    query = `
+      WITH hourly_data AS (
+        SELECT SUM(${column}) AS ${column},
+               hour
+        FROM ${table}
+             ${joinClause}
+        ${whereClause}
+        GROUP BY hour
+      )
+      SELECT AVG(${column}) AS ${column},
+             ${periodSelectColumn}
+      FROM hourly_data
+      GROUP BY DATE_TRUNC('${timeStep}', hour)
+      ORDER BY ${timeStep}
+    `;
+  }
+
   return useExecuteQuery(
     [entity.id, String(entity.idBasin), table, column, timeStep],
     query
