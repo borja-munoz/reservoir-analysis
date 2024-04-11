@@ -117,13 +117,13 @@ export default function Header() {
               orientation={vertical ? 'vertical' : 'horizontal'}
             >
               <Tab
-                label='Home'
+                label={<FormattedMessage id="home" />}
                 value=''
                 component={NavLink as any}
                 to={ROUTE_PATHS.DEFAULT}
               />
               <Tab
-                label='Dashboard'
+                label={<FormattedMessage id="dashboard" />}
                 value='dashboard'
                 component={NavLink as any}
                 to={ROUTE_PATHS.DASHBOARD}
