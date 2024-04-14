@@ -20,12 +20,12 @@ export default function Filters() {
   };
   
   return (
-    <Grid container ml={2}>
+    <Grid container ml={3}>
       <Grid item xs={6}>
         <MetricSelector />
       </Grid>
       <Grid item xs={6}>
-        <Stack direction="row" justifyContent="end" sx={{ marginTop: '10px' }}>
+        <Stack direction="row" justifyContent="end" mt={1}>
           <ToggleButtonGroup
             color="primary"
             value={timeStep}
