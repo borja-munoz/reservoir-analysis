@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material";
-import ReactECharts, { ReactEChartsProps } from "./ReactEcharts";
+import ReactECharts, { ReactEChartsProps } from "./ReactECharts";
 
 export interface ChartProps {
   data: any[];
@@ -68,7 +68,7 @@ export default function Chart({ data, xAxisColumn, yAxisColumn }: ChartProps) {
   };
 
   return (
-    <Grid container mb={5} mr={5}>
+    <Grid container mb={2} mr={2}>
       <Grid item xs={12}>
         <ReactECharts option={option} style={{ height: "300px" }} />
       </Grid>
