@@ -107,7 +107,7 @@ export default function Header() {
               textDecoration: 'none',
             }}
           >
-            Reservoir Analysis
+            SAIH Explorer
           </Typography>
           <Divider orientation='vertical' flexItem sx={{marginTop: '5px'}} />
           <WrapperTabs vertical={vertical}>

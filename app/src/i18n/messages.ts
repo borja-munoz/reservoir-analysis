@@ -5,7 +5,7 @@ export const messages = {
   [LOCALES.ENGLISH]: {
 
     // Homepage
-    welcome: "Welcome to Reservoir Analysis!",
+    welcome: "Welcome to SAIH Explorer!",
 
     // Header
     language: "Language",
@@ -68,7 +68,7 @@ export const messages = {
   [LOCALES.SPANISH]: {
 
     // Homepage
-    welcome: "¡Bienvenido a Reservoir Analysis!",
+    welcome: "¡Bienvenido a SAIH Explorer!",
 
     // Header
     language: "Idioma",

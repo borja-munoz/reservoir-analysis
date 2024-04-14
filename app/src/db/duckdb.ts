@@ -43,7 +43,7 @@ const loadDB = async () => {
 
   await db.open({ 
     accessMode: DuckDBAccessMode.READ_ONLY,
-    path: "http://localhost:5173/db/reservoir-analysis.db"
+    path: "http://localhost:5173/db/saih-explorer.db"
   });  
 };
 

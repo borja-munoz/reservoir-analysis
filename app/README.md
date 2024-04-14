@@ -1,6 +1,6 @@
-# Reservoir Analysis - Web Application
+# SAIH Explorer - Web Application
 
-Kickstarted with Vite React Typescript template.
+Data explorer with in-process OLAP database, using sensor data from the **S**istema **A**utomático de **I**nformación *H*idrológica (Hidrology Information System).
 
 ## Tech Stack
 
@@ -17,6 +17,7 @@ Kickstarted with Vite React Typescript template.
 - Client-Side Routing: [React Router](https://reactrouter.com/en/main)
 - Query Caching: [React Query](https://tanstack.com/query)
 - Internationalization: [React Intl](https://formatjs.io/docs/react-intl/)
+- Map visualization: [deck.gl](https://deck.gl)
 
 ### Backend
 
