@@ -1,8 +1,8 @@
 import { useState } from "react";
 
 import { Drawer } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { RichTreeView, TreeViewBaseItem } from "@mui/x-tree-view";
+import { styled, alpha } from "@mui/material/styles";
+import { RichTreeView, TreeItem, TreeViewBaseItem, treeItemClasses } from "@mui/x-tree-view";
 
 import { useDispatch } from "react-redux";
 import { setSelectedEntity } from "../store/appSlice";
@@ -36,6 +36,37 @@ const DrawerDesktop = styled(Drawer)(() => ({
     height: "100vh",
     padding: "20px",
     borderWidth: "0px",
+  },
+}));
+
+const StyledTreeItem = styled(TreeItem)(({ theme }) => ({
+  color:
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[800]
+      : theme.palette.grey[200],
+
+  [`& .${treeItemClasses.content}`]: {
+    borderRadius: theme.spacing(0.5),
+    padding: theme.spacing(0.5, 1),
+    margin: theme.spacing(0.2, 0),
+    [`& .${treeItemClasses.label}`]: {
+      fontSize: '0.8rem',
+      fontWeight: 500,
+    },
+  },
+  [`& .${treeItemClasses.iconContainer}`]: {
+    borderRadius: '50%',
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? alpha(theme.palette.primary.main, 0.25)
+        : theme.palette.primary.dark,
+    color: theme.palette.mode === 'dark' && theme.palette.primary.contrastText,
+    padding: theme.spacing(0, 1.2),
+  },
+  [`& .${treeItemClasses.groupTransition}`]: {
+    marginLeft: 15,
+    paddingLeft: 18,
+    borderLeft: `1px dashed ${alpha(theme.palette.text.primary, 0.4)}`,
   },
 }));
 
@@ -122,6 +153,7 @@ export default function EntitySelector() {
           defaultExpandedItems={['basin|1']}
           aria-label="Entity Selector"
           sx={{ height: 200, flexGrow: 1, maxWidth: 350, overflowY: "auto" }}
+          slots={{ item: StyledTreeItem }}
           onItemSelectionToggle={handleItemSelectionToggle}
         />
       </DrawerDesktop>
