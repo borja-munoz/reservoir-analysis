@@ -28,47 +28,10 @@ export default function Chart({ data, xAxisColumn, yAxisColumn }: ChartProps) {
         type: "line",
       },
     ],
-    // tooltip: {
-    //   trigger: "axis",
-    //   axisPointer: {
-    //     type: "shadow",
-    //   },
-    // },
-    // legend: {
-    //   data: ["Owned", "Financed"],
-    // },
-    // grid: {
-    //   left: "10%",
-    //   right: "0%",
-    //   top: "20%",
-    //   bottom: "20%",
-    // },
-    // xAxis: {
-    //   type: "value",
-    // },
-    // yAxis: {
-    //   type: "category",
-    // },
-    // series: [
-    //   {
-    //     type: "bar",
-    //     stack: "total",
-    //     label: {
-    //       show: true,
-    //     },
-    //   },
-    //   {
-    //     type: "bar",
-    //     stack: "total",
-    //     label: {
-    //       show: true,
-    //     },
-    //   },
-    // ],
   };
 
   return (
-    <Grid container mb={2} mr={2}>
+    <Grid container mb={2} sx={{ border: "1px solid #EEEEEE" }}>
       <Grid item xs={12}>
         <ReactECharts option={option} style={{ height: "300px" }} />
       </Grid>
