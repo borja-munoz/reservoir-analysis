@@ -7,7 +7,7 @@ import type { Feature } from "geojson";
 
 import "maplibre-gl/dist/maplibre-gl.css";
 
-const MapContainer = styled("div")(({ theme }) => ({
+const MapContainer = styled("div")(({ theme: _theme }) => ({
   // backgroundColor: theme.palette.grey[50],
   minHeight: "300px",
   width: "100%",
