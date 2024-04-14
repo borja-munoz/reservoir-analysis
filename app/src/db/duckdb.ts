@@ -19,7 +19,7 @@ const MANUAL_BUNDLES: duckdb.DuckDBBundles = {
 };
 
 let db : AsyncDuckDB | null = null;
-let connection: Promise<AsyncDuckDBConnection> | undefined; 
+let connection: AsyncDuckDBConnection | undefined; 
 
 const initDB = async () => {
   if (db) {
@@ -53,7 +53,9 @@ const getConnection = async () => {
   }
   if (db === null) {
     await loadDB();
-    connection = db!.connect(); // Open a connection (promise)
+    connection = await db!.connect(); // Open a connection (promise)
+    await connection.query('INSTALL SPATIAL');
+    await connection.query('LOAD SPATIAL');
     return connection;
   }
 };
