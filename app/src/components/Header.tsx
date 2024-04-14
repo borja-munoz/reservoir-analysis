@@ -1,4 +1,4 @@
-import { AppBar, Container, Divider, Toolbar, Typography } from '@mui/material';
+import { AppBar, Container, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import FlareOutlinedIcon from "@mui/icons-material/FlareOutlined";
 
@@ -51,8 +51,7 @@ export default function Header() {
             noWrap
             component="span"
             sx={{
-              minWidth: '250px',
-              mr: 2,
+              minWidth: '294px',
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
@@ -63,7 +62,6 @@ export default function Header() {
           >
             SAIH Explorer
           </Typography>
-          <Divider orientation='vertical' flexItem sx={{marginTop: '5px'}} />
           <Filters />
           {/* <Box display="flex" justifyContent="flex-end">
             <FormControl size="small">
