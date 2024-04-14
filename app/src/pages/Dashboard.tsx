@@ -5,12 +5,13 @@ import { Field } from "apache-arrow";
 import { Box, Grid } from "@mui/material";
 
 import { RootState } from "../store/store";
-import { useMetric } from "../models/model";
+import { useMetric, useStations } from "../models/model";
 
 import EntitySelector from "../components/EntitySelector";
 import Filters from "../components/Filters";
 import TableView from "../components/TableView";
 import Chart from "../components/Chart";
+import Map from "../components/Map";
 
 export default function Dashboard() {
   const selectedEntity = useSelector(
@@ -22,12 +23,13 @@ export default function Dashboard() {
   const selectedTimeStep = useSelector(
     (state: RootState) => state.app.selectedTimeStep
   );
-  const [data, setData] = useState<any[] | undefined>();
+  const [measurementData, setMeasurementData] = useState<any[] | undefined>();
+  const [stationsData, setStationsData] = useState<any[] | undefined>();
   const [resultFields, setResultFields] = useState<Field<any>[] | undefined>(
     []
   );
   // const { data: arrowTable, status, error } = useDefaultBasinMetric();
-  const { data: arrowTable, status } = useMetric(
+  const { data: arrowTable, status: statusMetrics } = useMetric(
     selectedEntity,
     selectedMetric.table,
     selectedMetric.column,
@@ -35,14 +37,21 @@ export default function Dashboard() {
     selectedTimeStep
   );
 
+  const { data: stationsResult, status: statusStations } = useStations(selectedEntity);
+
   useEffect(() => {
     setResultFields([]);
+    setStationsData([]);
   }, [selectedEntity, selectedMetric, selectedTimeStep]);
 
-  console.log("Status: " + status);
-  if (status == "success" && resultFields?.length == 0) {
+  // console.log("Status: " + statusMetrics);
+  if (statusMetrics == "success" && resultFields?.length == 0) {
     setResultFields(arrowTable?.schema.fields);
-    setData(arrowTable?.toArray());
+    setMeasurementData(arrowTable?.toArray());
+  }
+
+  if (statusStations == "success" && stationsData?.length == 0) {
+    setStationsData(stationsResult?.toArray());
   }
 
   return (
@@ -61,15 +70,18 @@ export default function Dashboard() {
           }}
         >
           <Filters />
-          {data && (
-            <>
-              <Chart
-                data={data!}
-                xAxisColumn={selectedTimeStep}
-                yAxisColumn={selectedMetric.column}
-              />
-              <TableView data={data!} resultFields={resultFields!} />
-            </>
+          {measurementData && (
+            <Chart
+              data={measurementData!}
+              xAxisColumn={selectedTimeStep}
+              yAxisColumn={selectedMetric.column}
+            />
+          )}
+          {stationsData && (
+            <Map stations={stationsData!} />
+          )}
+          {measurementData && (
+            <TableView data={measurementData!} resultFields={resultFields!} />
           )}
         </Box>
       </Grid>

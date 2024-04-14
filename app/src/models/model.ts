@@ -36,6 +36,29 @@ export function useEntities() {
   return useExecuteQuery(["entities"], query);
 }
 
+export function useStations(entity: SelectedEntity) {
+  const whereClause =
+    entity.type === EntityType.Province
+      ? `WHERE province = '${entity.id}'`
+      : entity.type === EntityType.Station
+      ? `WHERE station_id = ${entity.id}`
+      : "";
+  const query = `
+    SELECT id AS station_id,
+           name AS station_name,
+           province,
+           type_description,
+           type,
+           subsystem,
+           ST_X(geom_4326) AS latitude,
+           ST_Y(geom_4326) AS longitude
+    FROM stations
+    ${whereClause}
+    ORDER BY province, name
+  `;
+  return useExecuteQuery(["stations", entity.type, entity.id], query);
+}
+
 export function useMetric(
   entity: SelectedEntity,
   table: string,
