@@ -8,7 +8,6 @@ import { RootState } from "../store/store";
 import { useMetric, useStations } from "../models/model";
 
 import EntitySelector from "../components/EntitySelector";
-import Filters from "../components/Filters";
 import TableView from "../components/TableView";
 import Chart from "../components/Chart";
 import Map from "../components/Map";
@@ -69,7 +68,6 @@ export default function Dashboard() {
             padding: "20px",
           }}
         >
-          <Filters />
           {measurementData && (
             <Chart
               data={measurementData!}

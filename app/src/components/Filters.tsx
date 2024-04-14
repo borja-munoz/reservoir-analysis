@@ -20,11 +20,11 @@ export default function Filters() {
   };
   
   return (
-    <Grid container sx={{ padding: "20px" }}>
+    <Grid container>
       <Grid item xs={6}>
         <MetricSelector />
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={6} mr={2}>
         <Stack direction="row" justifyContent="end">
           <ToggleButtonGroup
             color="primary"
@@ -32,6 +32,7 @@ export default function Filters() {
             exclusive
             onChange={handleTimeStepChange}
             aria-label="Time Step"
+            size="small"
           >
             <ToggleButton value="year">
               <FormattedMessage id="yearly" />
