@@ -20,7 +20,7 @@ export default function Filters() {
   };
   
   return (
-    <Grid container ml={3}>
+    <Grid container>
       <Grid item xs={6}>
         <MetricSelector />
       </Grid>
