@@ -185,7 +185,7 @@ export default function MetricSelector() {
   }
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }}>
+    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
       <InputLabel htmlFor="grouped-select">
         <FormattedMessage id="metric" />
       </InputLabel>
