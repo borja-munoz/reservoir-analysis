@@ -20,7 +20,7 @@ const routes = [
       <DefaultView />
     ),
     children: [
-      { path: ROUTE_PATHS.DEFAULT, element: <HomePage /> },
+      { path: ROUTE_PATHS.DEFAULT, element: <Dashboard /> },
       { path: ROUTE_PATHS.DASHBOARD, element: <Dashboard /> },
     ],
   },
