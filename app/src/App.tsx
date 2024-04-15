@@ -23,6 +23,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <IntlProvider
+          // @ts-ignore
           messages={messages[locale]}
           locale={locale}
           defaultLocale={locale}

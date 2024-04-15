@@ -1,5 +1,4 @@
 import { configureStore, ThunkAction } from '@reduxjs/toolkit';
-import { CurriedGetDefaultMiddleware } from '@reduxjs/toolkit/dist/getDefaultMiddleware';
 import {
   Action,
   combineReducers,
@@ -22,7 +21,7 @@ const staticReducers = {
 let store: AppStore = {
   ...configureStore({
     reducer: staticReducers,
-    middleware: (getDefaultMiddleware: CurriedGetDefaultMiddleware) =>
+    middleware: (getDefaultMiddleware) =>
       getCustomMiddleware(getDefaultMiddleware),
   }),
   asyncReducers: {},
@@ -40,7 +39,7 @@ function createReducer(asyncReducers = {}) {
 }
 
 function getCustomMiddleware(
-  getDefaultMiddleware: CurriedGetDefaultMiddleware,
+  getDefaultMiddleware: any,
 ) {
   const devConfig = {
     immutableCheck: {

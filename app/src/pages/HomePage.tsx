@@ -1,4 +1,4 @@
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
