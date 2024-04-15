@@ -20,11 +20,13 @@ const routes = [
       <DefaultView />
     ),
     children: [
-      { path: ROUTE_PATHS.DEFAULT, element: <Dashboard /> },
       { path: ROUTE_PATHS.DASHBOARD, element: <Dashboard /> },
     ],
   },
-    
+
+  // Pages without header
+  { path: ROUTE_PATHS.DEFAULT, element: <HomePage /> },
+
   // Page Not Found
   {
     path: '*',
