@@ -1,8 +1,8 @@
-# Reservoir Analysis
+# SAIH Explorer
 
 ## Goals
 
-- Extract sensor data from [Hidrosur](http://www.redhidrosurmedioambiente.es/saih) and import it in a DuckDB database.
+- Extract sensor data from the [official Spanish websites with hidrology information](https://www.miteco.gob.es/es/agua/temas/evaluacion-de-los-recursos-hidricos/saih.html) (Hidrology Information System - Sistema Automático de Información Hidrológica) like [Hidrosur](http://www.redhidrosurmedioambiente.es/saih) and import it in a DuckDB database.
 
 - Create a web app to query and visualize data in the browser using duckdb-wasm.
 
