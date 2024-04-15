@@ -13,6 +13,9 @@ export const ROUTE_PATHS = {
 
 const routes = [
 
+  // Pages without header
+  { path: ROUTE_PATHS.DEFAULT, element: <HomePage /> },
+
   // Pages with default layout (header + content)
   {
     path: ROUTE_PATHS.DEFAULT, 
@@ -23,9 +26,6 @@ const routes = [
       { path: ROUTE_PATHS.DASHBOARD, element: <Dashboard /> },
     ],
   },
-
-  // Pages without header
-  { path: ROUTE_PATHS.DEFAULT, element: <HomePage /> },
 
   // Page Not Found
   {
