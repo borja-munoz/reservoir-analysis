@@ -48,6 +48,8 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Copy Database
+        run: mkdir app/dist/db && cp db/saih-explorer.db app/dist/db
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
