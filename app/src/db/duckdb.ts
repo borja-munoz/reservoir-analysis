@@ -41,8 +41,7 @@ const initDB = async () => {
 const loadDB = async () => {
   const db = await initDB();
   const dbPath = 
-    'http://' +
-    window.location.host + 
+    window.location.origin + 
     import.meta.env.BASE_URL + 
     "db/saih-explorer.db";
   await db.open({ 
