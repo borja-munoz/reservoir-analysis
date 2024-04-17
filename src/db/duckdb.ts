@@ -54,8 +54,6 @@ const getConnection = async () => {
   if (db === null) {
     await loadDB();
     connection = await db!.connect(); // Open a connection (promise)
-    await connection.query('INSTALL SPATIAL');
-    await connection.query('LOAD SPATIAL');
     return connection;
   }
 };

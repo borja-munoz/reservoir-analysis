@@ -50,8 +50,8 @@ export function useStations(entity: SelectedEntity) {
            type_description,
            type,
            subsystem,
-           ST_X(geom_4326) AS latitude,
-           ST_Y(geom_4326) AS longitude
+           longitude,
+           latitude
     FROM stations
     ${whereClause}
     ORDER BY province, name
