@@ -28,35 +28,25 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: macos-latest
-    defaults:
-      run:
-        working-directory: app
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          lfs: true
-      - name: Checkout LFS objects
-        run: /usr/local/bin/git lfs checkout
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: app/yarn.lock
       - name: Install dependencies
         run: npm install
       - name: Build
         run: npm run build
-      - name: Copy Database
-        run: sudo mkdir dist/db && sudo cp ../db/saih-explorer.db dist/db
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload dist repository
-          path: 'app/dist'      
+          path: 'dist'      
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
