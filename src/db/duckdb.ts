@@ -40,10 +40,7 @@ const initDB = async () => {
 
 const loadDB = async () => {
   const db = await initDB();
-  const dbPath = 
-    window.location.origin + 
-    import.meta.env.BASE_URL + 
-    "db/saih-explorer.db";
+  const dbPath = "https://borja-munoz.github.io/saih-explorer-etl/saih-explorer.db";
   await db.open({ 
     accessMode: DuckDBAccessMode.READ_ONLY,
     path: dbPath
