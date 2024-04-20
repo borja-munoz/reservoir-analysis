@@ -10,7 +10,8 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 const MapContainer = styled("div")(({ theme: _theme }) => ({
   // backgroundColor: theme.palette.grey[50],
-  minHeight: "300px",
+  // minHeight: "300px",
+  height: "40vh",
   width: "100%",
   position: "relative",
   flex: "1 1 auto",

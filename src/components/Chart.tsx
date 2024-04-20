@@ -33,7 +33,7 @@ export default function Chart({ data, xAxisColumn, yAxisColumn }: ChartProps) {
   return (
     <Grid container mb={2} sx={{ border: "1px solid #EEEEEE" }}>
       <Grid item xs={12}>
-        <ReactECharts option={option} style={{ height: "300px" }} />
+        <ReactECharts option={option} style={{ height: "40vh" }} />
       </Grid>
     </Grid>
   );

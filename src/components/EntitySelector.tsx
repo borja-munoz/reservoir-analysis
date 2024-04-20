@@ -2,7 +2,12 @@ import { useState } from "react";
 
 import { Drawer } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
-import { RichTreeView, TreeItem, TreeViewBaseItem, treeItemClasses } from "@mui/x-tree-view";
+import {
+  RichTreeView,
+  TreeItem,
+  TreeViewBaseItem,
+  treeItemClasses,
+} from "@mui/x-tree-view";
 
 import { useDispatch } from "react-redux";
 import { setSelectedEntity } from "../store/appSlice";
@@ -33,7 +38,7 @@ const DrawerDesktop = styled(Drawer)(() => ({
   "& .MuiPaper-root": {
     width: DRAWER_WIDTH,
     position: "absolute",
-    height: "100vh",
+    height: "90vh",
     padding: "20px",
     borderWidth: "0px",
   },
@@ -41,7 +46,7 @@ const DrawerDesktop = styled(Drawer)(() => ({
 
 const StyledTreeItem = styled(TreeItem)(({ theme }) => ({
   color:
-    theme.palette.mode === 'light'
+    theme.palette.mode === "light"
       ? theme.palette.grey[800]
       : theme.palette.grey[200],
 
@@ -50,17 +55,17 @@ const StyledTreeItem = styled(TreeItem)(({ theme }) => ({
     padding: theme.spacing(0.5, 1),
     margin: theme.spacing(0.2, 0),
     [`& .${treeItemClasses.label}`]: {
-      fontSize: '0.8rem',
+      fontSize: "0.8rem",
       fontWeight: 500,
     },
   },
   [`& .${treeItemClasses.iconContainer}`]: {
-    borderRadius: '50%',
+    borderRadius: "50%",
     backgroundColor:
-      theme.palette.mode === 'light'
+      theme.palette.mode === "light"
         ? alpha(theme.palette.primary.main, 0.25)
         : theme.palette.primary.dark,
-    color: theme.palette.mode === 'dark' && theme.palette.primary.contrastText,
+    color: theme.palette.mode === "dark" && theme.palette.primary.contrastText,
     padding: theme.spacing(0, 1.2),
   },
   [`& .${treeItemClasses.groupTransition}`]: {
@@ -74,10 +79,10 @@ export default function EntitySelector() {
   const dispatch = useDispatch();
   const [data, setData] = useState<any[] | undefined>();
   let treeItems: TreeViewBaseItem[] = [];
-  const { data: arrowTable, status } = useEntities();  
+  const { data: arrowTable, status } = useEntities();
   if (status == "success" && data === undefined) {
-    setData(arrowTable?.toArray());  
-  }  
+    setData(arrowTable?.toArray());
+  }
 
   const createTreeItems = () => {
     if (data !== undefined) {
@@ -149,8 +154,8 @@ export default function EntitySelector() {
       <DrawerDesktop variant="permanent" anchor="left" open>
         <RichTreeView
           items={treeItems}
-          defaultSelectedItems={'basin|1'}
-          defaultExpandedItems={['basin|1']}
+          defaultSelectedItems={"basin|1"}
+          defaultExpandedItems={["basin|1"]}
           aria-label="Entity Selector"
           sx={{ height: 200, flexGrow: 1, maxWidth: 350, overflowY: "auto" }}
           slots={{ item: StyledTreeItem }}
