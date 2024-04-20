@@ -8,7 +8,6 @@ import { RootState } from "../store/store";
 import { useMetric, useStations } from "../models/model";
 
 import EntitySelector from "../components/EntitySelector";
-import TableView from "../components/TableView";
 import Chart from "../components/Chart";
 import Map from "../components/Map";
 
@@ -77,9 +76,6 @@ export default function Dashboard() {
           )}
           {stationsData && (
             <Map stations={stationsData!} />
-          )}
-          {measurementData && (
-            <TableView data={measurementData!} resultFields={resultFields!} />
           )}
         </Box>
       </Grid>
