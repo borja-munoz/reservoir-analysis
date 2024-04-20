@@ -14,6 +14,7 @@ import { RootState } from "./store/store";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { loadDB } from "./db/duckdb";
+import LoadingMessage from "./components/LoadingMessage";
 const queryClient = new QueryClient();
 
 function App() {
@@ -39,8 +40,10 @@ function App() {
           defaultLocale={locale}
         >
           <CssBaseline />
-          {dbInitialized && (
+          {dbInitialized ? (
             <Suspense fallback={<div>...</div>}>{routing}</Suspense>
+          ) : (
+            <LoadingMessage />
           )}
         </IntlProvider>
       </QueryClientProvider>
