@@ -8,5 +8,7 @@ export default defineConfig({
     react(),
     basicSsl(),
   ],
-  base: '/saih-explorer/',
+  // Only for GitHub Pages because the app
+  // is not deployed to the web site root
+  // base: '/saih-explorer/',
 })
