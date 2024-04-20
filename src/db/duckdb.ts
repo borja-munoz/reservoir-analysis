@@ -49,13 +49,10 @@ const loadDB = async () => {
 
 const getConnection = async () => {
   if (connection) {
-    return connection; // Return existing promise, if any
-  }
-  if (db === null) {
-    await loadDB();
-    connection = await db!.connect(); // Open a connection (promise)
     return connection;
   }
+  connection = await db!.connect(); 
+  return connection;
 };
 
 const executeQuery = async (query: string) => {
